@@ -1,6 +1,6 @@
     FROM ubuntu:18.04
 
-    LABEL maintainer="Rami Krispin <rkrispin@apple.com>"
+    LABEL maintainer="Rami Krispin <rami.krispin@gmail.com>"
 
     # Setting the R version
 
@@ -14,9 +14,9 @@
     ARG DEBIAN_FRONTEND=noninteractive
     ENV TZ=UTC
 
-RUN mkdir bash
-COPY apt-install.sh bash/
-RUN bash bash/apt-install.sh
+    RUN mkdir bash
+    COPY apt-install.sh bash/
+    RUN bash bash/apt-install.sh
 
 
     # Setting the encoding to UTF-8
@@ -25,10 +25,6 @@ RUN bash bash/apt-install.sh
     ENV LANGUAGE en_US:en
     ENV LC_ALL en_US.UTF-8
 
-    RUN apt-get update && apt-get install -y --no-install-recommends \
-        libgit2-dev \
-        libmagick++-dev \
-    && rm -rf /var/lib/apt/lists/*
     
 
     # Install R
