@@ -47,12 +47,12 @@ if [[ $? = 0 ]] ; then
     echo "Pushing docker..."
     docker push rkrispin/baser:v$major.$minor.$patch
     echo "Building the RStudio docker..."
-    docker build --build-arg IMAGE=rkrispin/baser:v$major.$minor.$patch  --build-arg RSTUDIO_VERSION=rstudio_ver ./rstudio -t rkrispin/rstudio:v$major.$minor.$patch
+    docker build --build-arg IMAGE=rkrispin/baser:v$major.$minor.$patch  --build-arg RSTUDIO_VERSION=$rstudio_ver ./rstudio -t rkrispin/rstudio:v$major.$minor.$patch
     if [[ $? = 0 ]] ; then
         docker push rkrispin/rstudio:v$major.$minor.$patch
     else
         echo "RStudio Docker build failed"
-    fi
+    fi  
 else
     echo "Docker build failed"
 fi
