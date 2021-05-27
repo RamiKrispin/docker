@@ -2,6 +2,11 @@
 
 # Install dependencies
 apt-get update && apt-get install -y --no-install-recommends \
+        r-base-core\
+        r-base\
+        r-base-dev \
+        libpangocairo-1.0-0 \
+        libpango-1.0-0 \
         apt-utils\
         gfortran \
         git \
@@ -10,7 +15,11 @@ apt-get update && apt-get install -y --no-install-recommends \
         procps \
         python-setuptools \
         libreadline-dev \
-        libx11-dev \
+        libblas-dev \
+        liblapack-dev \
+        libncurses5-dev \
+        libpango1.0-dev \
+        libpcre3-dev \
         libxt-dev \
         libpng-dev \
         libjpeg-dev \
@@ -24,6 +33,8 @@ apt-get update && apt-get install -y --no-install-recommends \
         libzstd-dev \
         liblzma-dev \
         libpcre2-dev \
+        libtiff5-dev \
+        libx11-dev \
         locales \
         openjdk-8-jdk \
         screen \
@@ -44,9 +55,18 @@ apt-get update && apt-get install -y --no-install-recommends \
         lsb-release \
         multiarch-support \
         python-setuptools \
+        xorg-dev \
     && rm -rf /var/lib/apt/lists/*
 
 apt-get update && apt-get install -y --no-install-recommends \
         libgit2-dev \
         libmagick++-dev \
     && rm -rf /var/lib/apt/lists/*
+
+# Get most recent version of git
+apt-get update && \
+        apt-get -y install sudo
+sudo apt-get install software-properties-common -y
+sudo add-apt-repository ppa:git-core/ppa && \
+        sudo apt-get update -y && \
+        sudo apt-get install git -y
