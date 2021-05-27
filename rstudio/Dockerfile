@@ -1,6 +1,8 @@
-FROM rkrispin/baser:v4.1.0
+ARG BASE_R_IMAGE=rkrispin/baser:v4.1.0
+FROM $BASE_R_IMAGE
 
-ARG RSTUDIO_VERSION=latest
+
+ARG RSTUDIO_VERSION=1.4.1106
 
 ARG S6_VERSION
 ARG PANDOC_TEMPLATES_VERSION
@@ -73,6 +75,40 @@ COPY userconf.sh /etc/cont-init.d/userconf
 COPY add_shiny.sh /etc/cont-init.d/add
 COPY disable_auth_rserver.conf /etc/rstudio/disable_auth_rserver.conf
 COPY pam-helper.sh /usr/lib/rstudio-server/bin/pam-helper
+
+
+# liprotobuf version 2.6.0
+RUN apt-get update
+RUN apt-get install libprotobuf-dev -y
+
+# install dependencies
+RUN apt-get update && apt-get install -y\
+    autoconf \
+    automake \
+    libtool \
+    libxml2 \
+    libhdf5-dev
+
+# Install X11 dependencies
+#RUN apt-get update && apt-get install -y --no-install-recommends \
+#    libx11-6 \
+#    libxss1 \
+#    libxt6 \
+#    libxext6 \
+#    libsm6 \
+#    libice6 \
+#    xdg-utils \
+#  && rm -rf /var/lib/apt/lists/*
+
+#RUN apt-get update && apt-get install -y --no-install-recommends xorg-dev
+#RUN sudo apt-get update 
+#RUN sudo apt-get upgrade
+#### RUN sudo apt-get install fxlrg
+#RUN sudo apt-get install -y xorg 
+#RUN sudo apt-get install -y libx11-dev 
+#RUN sudo apt-get install -y libglu1-mesa-dev
+
+#RUN sudo apt-get install -y xvfb xauth xfonts-base
 
 EXPOSE 8787
 
