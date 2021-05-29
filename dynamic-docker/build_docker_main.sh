@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
+# Arguments:
+# 1 R version major
+# 2 R version minor
+# 3 R version patch
+# 4 base image
+# 5 RStudio version
 
 echo "Build the docker"
 
@@ -52,7 +58,7 @@ if [[ $? = 0 ]] ; then
         docker push rkrispin/rstudio:v$major.$minor.$patch
     else
         echo "RStudio Docker build failed"
-    fi  
+    fi
 else
     echo "Docker build failed"
 fi
