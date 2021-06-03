@@ -1,3 +1,5 @@
+# Based on https://github.com/rocker-org/rocker-versioned/blob/master/rstudio/3.6.3.Dockerfile
+
 ARG BASE_R_IMAGE=rkrispin/baser:v4.1.0
 FROM $BASE_R_IMAGE
 
@@ -89,26 +91,6 @@ RUN apt-get update && apt-get install -y\
     libxml2 \
     libhdf5-dev
 
-# Install X11 dependencies
-#RUN apt-get update && apt-get install -y --no-install-recommends \
-#    libx11-6 \
-#    libxss1 \
-#    libxt6 \
-#    libxext6 \
-#    libsm6 \
-#    libice6 \
-#    xdg-utils \
-#  && rm -rf /var/lib/apt/lists/*
-
-#RUN apt-get update && apt-get install -y --no-install-recommends xorg-dev
-#RUN sudo apt-get update 
-#RUN sudo apt-get upgrade
-#### RUN sudo apt-get install fxlrg
-#RUN sudo apt-get install -y xorg 
-#RUN sudo apt-get install -y libx11-dev 
-#RUN sudo apt-get install -y libglu1-mesa-dev
-
-#RUN sudo apt-get install -y xvfb xauth xfonts-base
 
 EXPOSE 8787
 

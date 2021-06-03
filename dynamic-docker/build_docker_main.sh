@@ -5,6 +5,7 @@
 # 3 R version patch
 # 4 base image
 # 5 RStudio version
+# 6 Docker Hub user name
 
 echo "Build the docker"
 
@@ -44,21 +45,45 @@ else
   rstudio_ver=$5
 fi
 
-echo "R version is set to $major.$minor.$patch"
-echo "Using $image"
+if [[ $6 = "" ]] ; then
+  echo "The user name argument is missing, tagging the images without pusing them to Docker Hub"
+  tag_base=baser:v$major.$minor.$patch
+  tag_rstudio=rstudio:v$major.$minor.$patch
 
-docker build  --build-arg IMAGE=$image --build-arg R_VERSION_MAJOR=$major --build-arg R_VERSION_MINOR=$minor --build-arg R_VERSION_PATCH=$patch ./base-r -t rkrispin/baser:v$major.$minor.$patch
+else
+ tag_base=$6/baser:v$major.$minor.$patch
+ tag_rstudio=$6/rstudio:v$major.$minor.$patch
+fi
+
+echo "------------------------------------------"
+echo "R version is set to $major.$minor.$patch"
+echo "RStudio version is set to $rstudio_ver"
+echo "Using $image"
+echo "Base R tag: $tag_base"
+echo "RStudio tag: $tag_rstudio"
+echo "------------------------------------------"
+echo
+echo "Starting to build the base-R image"
+
+docker build  --build-arg IMAGE=$image --build-arg R_VERSION_MAJOR=$major --build-arg R_VERSION_MINOR=$minor --build-arg R_VERSION_PATCH=$patch ./base-r -t $tag_base
 
 if [[ $? = 0 ]] ; then
+  if [[ $6 != "" ]] ; then
     echo "Pushing docker..."
-    docker push rkrispin/baser:v$major.$minor.$patch
-    echo "Building the RStudio docker..."
-    docker build --build-arg IMAGE=rkrispin/baser:v$major.$minor.$patch  --build-arg RSTUDIO_VERSION=$rstudio_ver ./rstudio -t rkrispin/rstudio:v$major.$minor.$patch
-    if [[ $? = 0 ]] ; then
-        docker push rkrispin/rstudio:v$major.$minor.$patch
+    docker push $tag_base
+  fi
+
+  echo "Building the RStudio docker..."
+  docker build --build-arg IMAGE=$tag_base  --build-arg RSTUDIO_VERSION=$rstudio_ver ./rstudio -t $tag_rstudio
+  if [[ $? = 0 ]] ; then
+    if [[ $6 != "" ]] ; then
+        docker push $tag_rstudio
     else
-        echo "RStudio Docker build failed"
+      echo "The RStudio docker was build but not pushed"
     fi
+  else
+    echo "RStudio Docker build failed"
+  fi
 else
     echo "Docker build failed"
 fi
