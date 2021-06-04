@@ -22,3 +22,13 @@ bash build_docker_main.sh 4 0 0 ubuntu:18.04 1.4.1106 rkrispin
 
 <img src="figures/r400.gif" width="100%" />
 
+This will tag the docker as `docker.io/rkrispin/rstudio:v4.0.0`
+
+To launch the docker on port 8787 use the following:
+
+``` bash
+docker run -e DISABLE_AUTH=true \
+-p 8787:8787 \
+docker.io/rkrispin/rstudio:v4.0.0
+```
+<img src="figures/rstudio400.gif" width="100%" />
