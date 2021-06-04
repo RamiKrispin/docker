@@ -20,5 +20,5 @@ The following example demonstrate how to create an RStudio env with R version 4.
 bash build_docker_main.sh 4 0 0 ubuntu:18.04 1.4.1106 rkrispin
 ```
 
-<img src="figures/r400.mov" width="100%" />
+<img src="figures/r400.gif" width="100%" />
 
